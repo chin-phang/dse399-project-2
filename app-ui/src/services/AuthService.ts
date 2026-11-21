@@ -36,11 +36,10 @@ const toSignInResponse = (resp: BackendLoginResponse): SignInResponse => ({
 })
 
 export async function apiSignIn(data: SignInCredential) {
-    // The template's form field is named `email`; the backend authenticates on `username`.
     const resp = await ApiService.fetchDataWithAxios<BackendLoginResponse>({
         url: endpointConfig.signIn,
         method: 'post',
-        data: { username: data.email, password: data.password },
+        data: { username: data.username, password: data.password },
     })
     return toSignInResponse(resp)
 }
@@ -53,7 +52,7 @@ export async function apiSignUp(data: SignUpCredential) {
     })
     // Register returns 201 with no body, so sign the new user straight in.
     return (await apiSignIn({
-        email: data.userName,
+        username: data.userName,
         password: data.password,
     })) as SignUpResponse
 }
