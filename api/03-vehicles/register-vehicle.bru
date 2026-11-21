@@ -1,0 +1,35 @@
+meta {
+  name: Register vehicle
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{host}}/api/vehicles
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "licensePlate": "WXY 1234",
+    "type": "Box truck",
+    "capacity": 3500,
+    "status": "AVAILABLE"
+  }
+}
+
+docs {
+  UC05 — register a vehicle. Saves `vehicleId`.
+}
+
+script:post-response {
+  const body = res.getBody();
+  if (body && body.vehicleId != null) {
+    bru.setEnvVar("vehicleId", String(body.vehicleId));
+  }
+}

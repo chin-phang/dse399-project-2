@@ -1,0 +1,19 @@
+meta {
+  name: List available vehicles
+  type: http
+  seq: 30
+}
+
+get {
+  url: {{host}}/api/vehicles
+  body: none
+  auth: inherit
+}
+
+params:query {
+  status: AVAILABLE
+}
+
+docs {
+  UC05 — list only available vehicles.
+}

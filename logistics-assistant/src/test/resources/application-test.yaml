@@ -1,0 +1,12 @@
+spring:
+  ai:
+    openai:
+      # Never call the real API from tests. Chat tests supply a ChatModel double instead.
+      api-key: test-key-not-used
+app:
+  jwt:
+    secret: dGVzdC1vbmx5LXNlY3JldC1mb3ItdW5pdC1hbmQtaW50ZWdyYXRpb24tdGVzdHMtMDE=
+logging:
+  level:
+    liquibase: WARN
+    org.testcontainers: WARN

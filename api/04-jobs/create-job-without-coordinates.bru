@@ -1,0 +1,27 @@
+meta {
+  name: Create job without coordinates
+  type: http
+  seq: 30
+}
+
+post {
+  url: {{host}}/api/jobs
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "jobName": "Drop spare parts",
+    "deliveryLocation": "Somewhere not yet geocoded",
+    "priority": "LOW"
+  }
+}
+
+docs {
+  UC04 — a job with no coordinates yet, as the AI assistant would create it.
+}

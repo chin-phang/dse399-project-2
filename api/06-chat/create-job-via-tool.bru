@@ -1,0 +1,27 @@
+meta {
+  name: Create a job via tool
+  type: http
+  seq: 20
+}
+
+post {
+  url: {{host}}/api/chat
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+  Accept: text/event-stream
+}
+
+body:json {
+  {
+    "message": "Create a delivery job called Urgent spares for 12 Jalan Ampang, high priority.",
+    "sessionId": "bruno-session-1"
+  }
+}
+
+docs {
+  UC02 — a turn that should drive a tool call and emit `data-toolCall` frames.
+}

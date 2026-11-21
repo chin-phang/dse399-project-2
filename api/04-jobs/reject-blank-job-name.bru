@@ -1,0 +1,32 @@
+meta {
+  name: Reject blank job name
+  type: http
+  seq: 40
+}
+
+post {
+  url: {{host}}/api/jobs
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "jobName": "",
+    "deliveryLocation": "Klang"
+  }
+}
+
+docs {
+  UC04 — validation must reject a blank job name with a ProblemDetail 400.
+}
+
+tests {
+  test("blank job name is 400", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+}

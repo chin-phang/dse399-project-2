@@ -1,0 +1,15 @@
+meta {
+  name: Assign vehicle
+  type: http
+  seq: 20
+}
+
+post {
+  url: {{host}}/api/routes/{{routeId}}/vehicle/{{vehicleId}}
+  body: none
+  auth: inherit
+}
+
+docs {
+  UC06 — assign a vehicle to the generated route.
+}

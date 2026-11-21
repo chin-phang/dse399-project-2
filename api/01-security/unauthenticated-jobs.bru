@@ -1,0 +1,21 @@
+meta {
+  name: Unauthenticated jobs
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{host}}/api/jobs
+  body: none
+  auth: none
+}
+
+docs {
+  NFR-Security — an unauthenticated business call must be rejected with 401.
+}
+
+tests {
+  test("unauthenticated call is 401", function() {
+    expect(res.getStatus()).to.equal(401);
+  });
+}

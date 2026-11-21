@@ -1,0 +1,39 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Logs and runtime files
+*.log
+logs/
+*.pid
+
+# Backend (Maven / Spring Boot)
+logistics-assistant/target/
+
+# Frontend (Node / Vite)
+app-ui/node_modules/
+app-ui/build/
+app-ui/dist/
+app-ui/dist-ssr/
+app-ui/.vite/
+app-ui/.vite-cache/
+app-ui/*.local
+
+# IDEs and editors
+.cursor/
+.idea/
+.vscode/
+*.iws
+*.iml
+*.ipr
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini

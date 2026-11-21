@@ -1,0 +1,27 @@
+meta {
+  name: Recall previous turn
+  type: http
+  seq: 30
+}
+
+post {
+  url: {{host}}/api/chat
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+  Accept: text/event-stream
+}
+
+body:json {
+  {
+    "message": "What did I just ask you to create?",
+    "sessionId": "bruno-session-1"
+  }
+}
+
+docs {
+  UC03 — conversation memory. This turn only makes sense if the previous one is remembered.
+}

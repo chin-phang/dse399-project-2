@@ -1,0 +1,92 @@
+name: ai-logistics
+
+services:
+  app-database:
+    # PostGIS, not plain postgres: the Liquibase baseline runs CREATE EXTENSION postgis and
+    # job.location is a generated geography(Point,4326) column.
+    image: postgis/postgis:18-3.6
+    # No container_name: it is global across all projects on the machine, and "app-database"
+    # already collides with another project on this host. Compose namespaces it as
+    # ai-logistics-app-database-1 instead.
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: ai_logistics
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      # Postgres 18+ wants a single mount at /var/lib/postgresql, not at the old
+      # /var/lib/postgresql/data subdirectory — the 18 image refuses to start against the
+      # latter, reporting it as an unused mount.
+      - postgres-data:/var/lib/postgresql
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ai_logistics"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+    networks:
+      - ai-logistics
+
+  # The application services are opt-in: `docker compose up -d` brings up only the database for
+  # local development, where the backend and frontend run from Maven and Vite.
+  # Use `docker compose --profile app up -d` for the full stack.
+  logistics-assistant:
+    profiles: ["app"]
+    build:
+      context: ../logistics-assistant
+    restart: unless-stopped
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://app-database:5432/ai_logistics
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      # Required at runtime — supply it from the host environment, never hard-code it here.
+      # Not marked ${VAR:?...}: Compose interpolates the whole file regardless of which profiles
+      # are active, so a required-variable guard here would also break `compose up` for the
+      # database alone. The backend fails with a clear message if it is missing.
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_CHAT_MODEL: ${OPENAI_CHAT_MODEL:-gpt-5.6-terra}
+      JWT_SECRET: ${JWT_SECRET:-}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:5173,http://localhost}
+
+    ports:
+      - "8080:8080"
+
+    depends_on:
+      app-database:
+        condition: service_healthy
+
+    networks:
+      - ai-logistics
+
+  app-ui:
+    profiles: ["app"]
+    build:
+      context: ../app-ui
+      args:
+        # Reaches the backend from the browser, not from inside the compose network.
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8080/api}
+    restart: unless-stopped
+
+    ports:
+      - "80:80"
+
+    depends_on:
+      - logistics-assistant
+
+    networks:
+      - ai-logistics
+
+volumes:
+  postgres-data:
+
+networks:
+  ai-logistics:
+    driver: bridge

@@ -1,0 +1,19 @@
+meta {
+  name: List unassigned jobs
+  type: http
+  seq: 60
+}
+
+get {
+  url: {{host}}/api/jobs
+  body: none
+  auth: inherit
+}
+
+params:query {
+  unassigned: true
+}
+
+docs {
+  UC04 — only unassigned jobs (the pool the planner draws from).
+}

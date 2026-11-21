@@ -1,0 +1,15 @@
+meta {
+  name: Get route
+  type: http
+  seq: 40
+}
+
+get {
+  url: {{host}}/api/routes/{{routeId}}
+  body: none
+  auth: inherit
+}
+
+docs {
+  UC06/UC07 — fetch the route with its ordered stops.
+}

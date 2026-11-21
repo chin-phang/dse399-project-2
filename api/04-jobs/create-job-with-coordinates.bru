@@ -1,0 +1,36 @@
+meta {
+  name: Create job with coordinates
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{host}}/api/jobs
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "jobName": "Deliver pallets",
+    "deliveryLocation": "Jalan Ampang, Kuala Lumpur",
+    "latitude": 3.159,
+    "longitude": 101.7123,
+    "priority": "HIGH"
+  }
+}
+
+docs {
+  UC04 — create a delivery job with coordinates. Saves `jobId1`.
+}
+
+script:post-response {
+  const body = res.getBody();
+  if (body && body.jobId != null) {
+    bru.setEnvVar("jobId1", String(body.jobId));
+  }
+}

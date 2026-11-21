@@ -1,0 +1,15 @@
+meta {
+  name: Route summary
+  type: http
+  seq: 50
+}
+
+get {
+  url: {{host}}/api/routes/{{routeId}}/summary
+  body: none
+  auth: inherit
+}
+
+docs {
+  UC07 — route summary (distance via PostGIS ST_Distance, duration and fuel derived).
+}

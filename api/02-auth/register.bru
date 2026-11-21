@@ -1,0 +1,27 @@
+meta {
+  name: Register route planner
+  type: http
+  seq: 20
+}
+
+post {
+  url: {{host}}/api/auth/register
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "username": "planner",
+    "password": "planner-password",
+    "role": "ROUTE_PLANNER"
+  }
+}
+
+docs {
+  Register a route planner. A second run returns 409 once `planner` already exists.
+}

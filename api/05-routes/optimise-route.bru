@@ -1,0 +1,15 @@
+meta {
+  name: Optimise route
+  type: http
+  seq: 30
+}
+
+post {
+  url: {{host}}/api/routes/{{routeId}}/optimise
+  body: none
+  auth: inherit
+}
+
+docs {
+  UC06 — re-optimise an existing route.
+}

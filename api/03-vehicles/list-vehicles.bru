@@ -1,0 +1,15 @@
+meta {
+  name: List vehicles
+  type: http
+  seq: 20
+}
+
+get {
+  url: {{host}}/api/vehicles
+  body: none
+  auth: inherit
+}
+
+docs {
+  UC05 — list vehicles.
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Health
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{host}}/actuator/health
+  body: none
+  auth: none
+}
+
+docs {
+  Health check. Open, no token needed.
+}

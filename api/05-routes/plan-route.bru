@@ -1,0 +1,33 @@
+meta {
+  name: Plan route
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{host}}/api/routes/plan
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "jobIds": [{{jobId1}}, {{jobId2}}],
+    "routeName": "Morning run"
+  }
+}
+
+docs {
+  UC06 — generate an AI-assisted route recommendation. Saves `routeId`.
+}
+
+script:post-response {
+  const body = res.getBody();
+  if (body && body.routeId != null) {
+    bru.setEnvVar("routeId", String(body.routeId));
+  }
+}

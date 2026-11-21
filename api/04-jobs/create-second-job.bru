@@ -1,0 +1,36 @@
+meta {
+  name: Create second job
+  type: http
+  seq: 20
+}
+
+post {
+  url: {{host}}/api/jobs
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "jobName": "Collect crates",
+    "deliveryLocation": "Shah Alam",
+    "latitude": 3.0738,
+    "longitude": 101.5183,
+    "priority": "MEDIUM"
+  }
+}
+
+docs {
+  UC04 — a second job. Saves `jobId2`.
+}
+
+script:post-response {
+  const body = res.getBody();
+  if (body && body.jobId != null) {
+    bru.setEnvVar("jobId2", String(body.jobId));
+  }
+}

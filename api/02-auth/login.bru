@@ -1,0 +1,36 @@
+meta {
+  name: Login
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{host}}/api/auth/login
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "username": "admin",
+    "password": "admin123"
+  }
+}
+
+docs {
+  Sign in as the seeded admin. Saves `accessToken` and `refreshToken` for the rest of the walkthrough.
+}
+
+script:post-response {
+  const body = res.getBody();
+  if (body && body.accessToken) {
+    bru.setEnvVar("accessToken", body.accessToken);
+  }
+  if (body && body.refreshToken) {
+    bru.setEnvVar("refreshToken", body.refreshToken);
+  }
+}

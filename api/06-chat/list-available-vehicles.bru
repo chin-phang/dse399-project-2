@@ -1,0 +1,27 @@
+meta {
+  name: Ask for available vehicles
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{host}}/api/chat
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+  Accept: text/event-stream
+}
+
+body:json {
+  {
+    "message": "What vehicles are available?",
+    "sessionId": "bruno-session-1"
+  }
+}
+
+docs {
+  UC01/UC02/UC03 — chat with the assistant (SSE stream).
+}

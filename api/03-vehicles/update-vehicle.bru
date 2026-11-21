@@ -1,0 +1,25 @@
+meta {
+  name: Update vehicle
+  type: http
+  seq: 40
+}
+
+put {
+  url: {{host}}/api/vehicles/{{vehicleId}}
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "status": "MAINTENANCE"
+  }
+}
+
+docs {
+  UC05 — update a vehicle.
+}

@@ -1,0 +1,12 @@
+meta {
+  name: Chat
+  seq: 60
+}
+
+auth {
+  mode: inherit
+}
+
+docs {
+  UC01–UC03 — conversational assistant. Responses are an SSE stream: header `x-vercel-ai-ui-message-stream: v1`, `data: {"type":"..."}` frames, then `data: [DONE]`.
+}
